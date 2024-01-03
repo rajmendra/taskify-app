@@ -1,7 +1,3 @@
-Certainly! Below is a template for a README file for your task management application:
-
----
-
 # Taskify App
 
 ## Overview
