@@ -3,8 +3,16 @@ import { useForm, Controller } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { v4 as uuidv4 } from 'uuid';
+import { StatusOptions, PriorityOptions, TaskStatus } from '../../constants';
 
-const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, closeModal }) => {
+const TaskForm = ({
+  taskToEdit,
+  addTask,
+  editTask,
+  setTaskToEdit,
+  isEditing,
+  closeModal,
+}) => {
   const {
     handleSubmit,
     control,
@@ -23,11 +31,23 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
 
   useEffect(() => {
     // Set default form values when taskToEdit changes
+    const fields = [
+      'id',
+      'title',
+      'description',
+      'dueDate',
+      'priority',
+      'status',
+    ];
+
     if (taskToEdit) {
       setValue('id', taskToEdit.id || uuidv4());
       setValue('title', taskToEdit.title || '');
       setValue('description', taskToEdit.description || '');
-      setValue('dueDate', taskToEdit.dueDate ? new Date(taskToEdit.dueDate) : new Date());
+      setValue(
+        'dueDate',
+        taskToEdit.dueDate ? new Date(taskToEdit.dueDate) : new Date(),
+      );
       setValue('priority', taskToEdit.priority || 'Medium');
       setValue('status', taskToEdit.status || 'Pending');
     }
@@ -38,7 +58,6 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
   };
 
   const onSubmit = (data) => {
-   
     if (isEditing) {
       editTask(data);
       setTaskToEdit(null); // Reset task to edit
@@ -54,7 +73,6 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
     setValue('priority', 'Medium');
     setValue('status', 'Pending');
   };
-  
 
   return (
     <div className="task-form-container">
@@ -68,12 +86,21 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
             defaultValue=""
             rules={{
               required: 'Title is required',
-              minLength: { value: 3, message: 'Title must be at least 3 characters long' },
+              minLength: {
+                value: 3,
+                message: 'Title must be at least 3 characters long',
+              },
             }}
             render={({ field }) => (
               <>
-                <input {...field} type="text" className={errors.title ? 'error-input' : ''} />
-                {errors.title && <p className="error-message">{errors.title.message}</p>}
+                <input
+                  {...field}
+                  type="text"
+                  className={errors.title ? 'error-input' : ''}
+                />
+                {errors.title && (
+                  <p className="error-message">{errors.title.message}</p>
+                )}
               </>
             )}
           />
@@ -88,8 +115,13 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
             rules={{ required: 'Description is required' }}
             render={({ field }) => (
               <>
-               <textarea {...field} className={errors.description ? 'error-input' : ''} />
-                {errors.description && <p className="error-message">{errors.description.message}</p>}
+                <textarea
+                  {...field}
+                  className={errors.description ? 'error-input' : ''}
+                />
+                {errors.description && (
+                  <p className="error-message">{errors.description.message}</p>
+                )}
               </>
             )}
           />
@@ -109,7 +141,9 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
                   onChange={(date) => handleDateChange(date)}
                   className={errors.dueDate ? 'error-input' : ''}
                 />
-                {errors.dueDate && <p className="error-message">{errors.dueDate.message}</p>}
+                {errors.dueDate && (
+                  <p className="error-message">{errors.dueDate.message}</p>
+                )}
               </>
             )}
           />
@@ -120,12 +154,14 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
           <Controller
             name="priority"
             control={control}
-            defaultValue="Medium"
+            defaultValue={'Medium'}
             render={({ field }) => (
               <select {...field}>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
+                {PriorityOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
             )}
           />
@@ -136,21 +172,26 @@ const TaskForm = ({ taskToEdit, addTask, editTask, setTaskToEdit, isEditing, clo
           <Controller
             name="status"
             control={control}
-            defaultValue="Pending"
+            defaultValue={TaskStatus.PENDING}
             render={({ field }) => (
               <select {...field}>
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
+                {StatusOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
             )}
           />
         </div>
         <div className="button-container">
-        <button type="submit" className="submit-button">
-          {isEditing ? 'Update Task' : 'Add Task'}
-        </button>
-        
-        <button className='cancel-button' onClick={closeModal}>Cancel</button>
+          <button type="submit" className="button btn-primary">
+            {isEditing ? 'Update Task' : 'Add Task'}
+          </button>
+
+          <button className="button cancel-button" onClick={closeModal}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>

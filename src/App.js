@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import TaskList from './TaskList';
-import TaskForm from './TaskForm';
+import Dashboard from './components/dashboard';
+import AddTaskModal from './components/modal/AddTaskModal';
+import { getStoredData, updateStorageData } from './utils';
 import './App.css'; // Import the global styles
 
 Modal.setAppElement('#root');
@@ -11,28 +12,29 @@ function App() {
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
 
   useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const storedTasks = getStoredData();
     setTasks(storedTasks);
   }, []);
 
   const addTask = (task) => {
     const updatedTasks = [...tasks, task];
     setTasks(updatedTasks);
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    updateStorageData(updatedTasks);
     closeAddTaskModal();
   };
 
-  
   const editTask = (editedTask) => {
-    const updatedTasks = tasks.map((task) => (task.id === editedTask.id ? editedTask : task));
+    const updatedTasks = tasks.map((task) =>
+      task.id === editedTask.id ? editedTask : task,
+    );
     setTasks(updatedTasks);
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    updateStorageData(updatedTasks);
   };
 
   const deleteTask = (taskId) => {
     const updatedTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(updatedTasks);
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    updateStorageData(updatedTasks);
   };
 
   const openAddTaskModal = () => {
@@ -47,20 +49,15 @@ function App() {
     <div className="container">
       <div className="App">
         <h1>Taskify - Task Management</h1>
-        <button className="btn-primary" onClick={openAddTaskModal}>
+        <button className="button btn-primary" onClick={openAddTaskModal}>
           Add Task
         </button>
-        <TaskList tasks={tasks} editTask={editTask} deleteTask={deleteTask}  />
-        <Modal
-          isOpen={isAddTaskModalOpen}
-          onRequestClose={closeAddTaskModal}
-          className="modal"
-          overlayClassName="overlay"
-        >
-          <TaskForm addTask={addTask} 
-          closeModal={closeAddTaskModal} />
-          
-        </Modal>
+        <Dashboard tasks={tasks} editTask={editTask} deleteTask={deleteTask} />
+        <AddTaskModal
+          isAddTaskModalOpen={isAddTaskModalOpen}
+          closeAddTaskModal={closeAddTaskModal}
+          addTask={addTask}
+        ></AddTaskModal>
       </div>
     </div>
   );
