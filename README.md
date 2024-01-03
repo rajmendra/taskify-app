@@ -41,7 +41,7 @@ Follow the steps below to set up and run the Task Management App on your local m
 1. **Clone the Repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/rajmendra/taskify-app.git
    ```
 
 2. **Install Dependencies:**
