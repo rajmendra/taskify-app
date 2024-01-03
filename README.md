@@ -46,7 +46,7 @@ Follow the steps below to set up and run the Task Management App on your local m
 
 2. **Install Dependencies:**
    ```bash
-   cd task-management-app
+   cd taskify-app
    npm install
    ```
 
