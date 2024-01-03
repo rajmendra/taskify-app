@@ -68,7 +68,7 @@ Follow the steps below to set up and run the Task Management App on your local m
 
 ## Live Url
 
-[![Vercel Link]((https://taskify-fbnb63a4u-rajmendras-projects.vercel.app)]
+Vercel Link(https://taskify-fbnb63a4u-rajmendras-projects.vercel.app)
 
 ## Technologies Used
 
