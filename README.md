@@ -66,10 +66,9 @@ Follow the steps below to set up and run the Task Management App on your local m
 - Add, edit, or delete tasks as needed.
 - Utilize search and filter functionalities for quick task access.
 
-## Screenshots
+## Live Url
 
-![Dashboard](screenshots/dashboard.png)
-![Task Management](screenshots/task-management.png)
+[![Vercel Link]((https://taskify-fbnb63a4u-rajmendras-projects.vercel.app)]
 
 ## Technologies Used
 
