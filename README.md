@@ -9,7 +9,7 @@ The Task Management App is a web application designed to help users manage their
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
+- [Live Url](#live-url)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
